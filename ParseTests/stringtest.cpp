@@ -8,6 +8,14 @@ namespace ParseTests
 	TEST_CLASS(StringTest)
 	{
 	public:
+		TEST_METHOD(NotStrings)
+		{
+			assertNotParses("");
+			assertNotParses("1.023");
+			assertNotParses("()");
+			assertNotParses("test_identifier");
+		}
+
 		TEST_METHOD(TestNormals)
 		{
 			assertParsesTo("\"\"", "");
@@ -34,6 +42,18 @@ namespace ParseTests
 			auto errMessage = std::move(std::get<1>(rr));
 			Assert::IsTrue(std::get<0>(rr), std::wstring(errMessage.begin(), errMessage.end()).c_str());
 			Assert::AreEqual(str.val, becomes);
+		}
+
+		void assertNotParses(std::string source)
+		{
+			std::istringstream iss(source);
+			GraphLang::Parser parser(iss);
+			GraphLang::Tokenizer::String str;
+
+			auto rr = parser.require(str);
+
+			auto errMessage = std::move(std::get<1>(rr));
+			Assert::IsFalse(std::get<0>(rr), std::wstring(str.val.begin(), str.val.end()).c_str());
 		}
 	};
 }
