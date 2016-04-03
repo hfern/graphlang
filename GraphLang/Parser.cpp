@@ -117,6 +117,12 @@ bool GraphLang::Parser::matchLiteral(std::string str)
 	return true;
 }
 
+bool GraphLang::Parser::eof()
+{
+	readws();
+	return ins.eof();
+}
+
 GraphLang::Parser::Checkpoint::Checkpoint(Parser& parser_, Tokenizer::Token* tok_):
 	parser(parser_), tok(tok_)
 {

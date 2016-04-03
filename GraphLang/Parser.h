@@ -35,6 +35,8 @@ public:
 	// Match a literal sequence of characters
 	bool	matchLiteral(std::string str);
 
+	bool	eof();
+
 	// Try to match one of multiple options
 	// Returns {nodeptr, {matched:bool, reason:string}}
 	template <typename... Args>

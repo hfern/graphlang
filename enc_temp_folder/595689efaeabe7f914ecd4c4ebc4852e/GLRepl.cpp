@@ -32,7 +32,7 @@ void doForString(string input)
 
 	auto tok = std::move(get<0>(got));
 
-	if (parser.eof() || parser.matchLiteral(";"))
+	if (parser.eof())
 	{
 		cout << "Got a " << tok->name();
 	}
