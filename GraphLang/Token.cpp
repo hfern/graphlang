@@ -39,15 +39,13 @@ namespace Tokenizer
 		char c = in.peek();
 		while(
 			c == '_' 
-			|| ('a' <= c && 'z') 
-			|| ('A' <= c && 'Z') 
+			|| ('a' <= c && c <= 'z') 
+			|| ('A' <= c && c <= 'Z') 
 			|| (digitsOk && '0' <= c && c <= '9')
 			)
 		{
 			digitsOk = true;
-			char k;
-			in >> k;
-			id += k;
+			id += in.get();
 			c = in.peek();
 		}
 
