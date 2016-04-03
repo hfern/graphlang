@@ -52,9 +52,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphLang.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="NodeValue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
