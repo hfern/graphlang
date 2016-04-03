@@ -1,0 +1,101 @@
+// nodes are denoted with ()
+// unique reference names are the first identifier in the parens (uniqueid)
+// comments are like this!
+// statements are delimited with ;
+//
+// Maybe include a datetime as a primitive?
+// Or cast to softer medium-primitive like
+//	!interpret "tagname" as Date
+// Which is just a special interpretation 
+
+(hunter name:"Hunter" age:20) -dad-> (herman); // a unidirectional relation,
+										// note how the herman node doesn't
+										// have any attributes defined yet.
+(hunter) <-brother-> (peter); // two directional relation
+(peter name:"Peter"); // late defined property on a previosly defined node.
+
+
+// Maybe anonymous nodes?
+(? name:"Cody") <-friend-> (hunter);
+
+// Maybe multiple relation
+// Hunter is a friend of cody, nicole, anthony, and jimi
+// cody and nicole are not declared friends in this example. 
+(hunter) <-friend-> [(cody), (anthony), (jimi)];
+
+// Maybe relation chaining?
+// hunter is a friend of cody, who is in turn a friend of ariana.
+// hunter and ariana are declared friends with each other in this line.
+(hunter) <-friend-> (cody) <-friend-> (ariana);
+
+// Permutations??
+// hunter, cody, and anthony are all friends with eachother
+// Note: This can only allow bidirectional relations.
+// Note: This shouldn't have a node make a relation with itself.
+friends & [(hunter), (cody), (anthony)];
+
+// Maybe symbol aliasing?
+// Should these exist only in the parsing phase or be held
+// as data in the graph structure itself?
+alias friend to F;
+alias hunter to HF;
+(HF) <-F-> (cody);
+
+// ############################
+//	  QUERY LANGUAGE SECTION
+// ############################
+
+// Maybe allow aliasing links to many of others?
+// abstractions pretend a node is on the left.
+(barbara) <-mom- (hunter) -dad-> (herman);
+abstract relation parents = {-mom->, -dad->}; // parents are the nodes at outgoing
+											  // links mom and dad
+abstract relation children = {<-mom-, <-dad-}; // children are those nodes at incoming
+											   // links mom and dad
+
+// Maybe a command to sever all links to/from a particular node??
+// Slice all connections to/from a node
+sever <-> (hunter);
+// Slice only incoming direction
+sever -> (hunter);
+// Slice only outgoing connections
+sever <- (hunter);
+
+
+// What about lensing graphs???
+// lens k contains {friend, };
+
+
+
+
+
+
+
+
+
+
+/// Scratchspace
+(hunter) -is_a-> (male) -is_a-> (human) -is_a-> (being) -is_a-> (type);
+(hunter) -is_a-> (programmer) -is_a-> (profession) -is_a-> (type);
+(hunter) -likes-> (blue) -is_a-> (color) -is_a-> (type);
+(hunter) -likes-> (hiking) -is_a-> (activity);
+(hiking) -takes_place-> (outdoors) -is_a-> (environment) -is_a-> (type);
+(srjc name:"Santa Rosa Junior College") -is_a-> (college) -is_a-> (school) -is_a-> (type);
+(place) <-is_a- (sonoma) <-is_in- (srjc) -is_a-> (place);
+
+(hunter) -attends-> (srjc);
+(hunter) -attended-> [(miwok), (kenilworth), (casa)];
+(hunter) <-friends-> (cody name:"Cody Lynch");
+(cody) <-dating-> (mandi name:"Mandi Peterson");
+(mandi) -likes-> (horse) -is_a-> (being);
+(cody) -attends-> (ssu name:"SSU") -is_a-> (college);
+[(hunter), (cody)] -is_in-> (petaluma) -is_in-> (sonoma);
+
+(hunter) -is_a-> (tutor) -is_a-> (profession);
+(hunter) -works_at-> (tutcenter name:"Tutorial Center") -is_in-> (srjc);
+(hunter) -boss-> (? name:"Carlos Valencia") -works_at-> (tutcenter); // can we figure out carlos is_a human???
+																// will have to use bayesion apriori cause small sample
+
+(hunter) <-friends-> (julius name:"Julius Chiang"); // can we figure out a friend relation implies the other is a human??
+(julius) -works_at-> (tutcenter); // are the odds improving that julius is a human??????
+
