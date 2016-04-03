@@ -65,16 +65,31 @@ namespace Tokenizer
 	{
 		Checkpoint ch(p, this);
 
+		bool makeNegative = false;
+
+		if (p.i().peek() == '-')
+		{
+			p.i().get();
+			makeNegative = true;
+			p.readws();
+		}
+
+
 		char firstChar = p.i().peek();
-		if ('1' <= firstChar && firstChar <= '9')
+		if ('0' <= firstChar && firstChar <= '9')
 		{
 			p.i() >> num;
+			if (makeNegative)
+			{
+				num *= -1;
+			}
+
 			ch.commit();
 
 			return make_tuple(true, "");
 		}
 
-		return make_tuple(false, "Can't interpret as begining of number");
+		return make_tuple(false, "Can't interpret as begining of number: "+firstChar);
 	}
 
 	TokenParseResult String::Parse(Parser& p)

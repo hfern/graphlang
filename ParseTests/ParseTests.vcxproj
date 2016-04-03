@@ -166,6 +166,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="stringtest.cpp" />
+    <ClCompile Include="numbertest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GraphLang\GraphLang.vcxproj">
