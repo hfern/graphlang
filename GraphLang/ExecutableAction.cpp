@@ -62,7 +62,7 @@ namespace GraphLang
 				{
 					actions.push_back(make_unique<AttachAttribute>(
 						nodeptr->identifier.id,
-						attr->name(),
+						attr->id.id,
 						attr->val.toNodeValue()
 					));
 				}
