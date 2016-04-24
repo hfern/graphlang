@@ -272,7 +272,8 @@ namespace Tokenizer
 			return TokenParseResult{ false, "Nodes need to open with a left-paren." };
 		}
 
-		if (p.matchLiteral("?"))
+		// TODO(Hunter): enable anonymous node support
+		if (false && p.matchLiteral("?"))
 		{
 			// anonymous node!!
 			identifier = Identifier();
