@@ -14,6 +14,17 @@ namespace GraphLang
 
 	namespace Tokenizer
 	{
+		class Token;
+
+		// A class to visit every token in a token tree
+		class TokenVisitor
+		{
+		public:
+			virtual void operator()(Token&) = 0;
+			virtual ~TokenVisitor() {};
+		};
+
+		// Token represents a token in a parse tree. 
 		class Token
 		{
 		public:
@@ -28,6 +39,7 @@ namespace GraphLang
 			virtual ~Token();
 			virtual Token* clone() const { return new Token(); };
 			virtual std::string name() const { return "(RAW TOKEN BASE)"; };
+			virtual void expose_children(TokenVisitor& vis) {};
 
 			PrintablePosition pos() const;
 
@@ -79,6 +91,7 @@ namespace GraphLang
 			LiteralValue(const LiteralValue& other);
 			virtual Token* clone() const override { return new LiteralValue(*this); };
 			std::string name() const override { return "LiteralValue"; };
+			void expose_children(TokenVisitor& vis) override;
 		};
 
 		class Attribute : public Token
@@ -89,6 +102,7 @@ namespace GraphLang
 			TokenParseResult Parse(Parser& input) override;
 			virtual Token* clone() const override { return new Attribute(*this); };
 			std::string name() const override { return "Attribute"; };
+			void expose_children(TokenVisitor& vis) override;
 		};
 
 
@@ -104,6 +118,7 @@ namespace GraphLang
 
 			Node();
 			Node(const Node& other);
+			void expose_children(TokenVisitor& vis) override;
 		};
 
 		class NodeArray: public Token
@@ -114,6 +129,7 @@ namespace GraphLang
 			TokenParseResult Parse(Parser& p) override;
 			Token* clone() const override { return new NodeArray(*this); };
 			std::string name() const override { return "NodeArray"; };
+			void expose_children(TokenVisitor& vis) override;
 		};
 
 		class Relation: public Token
@@ -139,6 +155,7 @@ namespace GraphLang
 			TokenParseResult Parse(Parser& p) override;
 			Token* clone() const override { return new Relation(*this); };
 			std::string name() const override { return "Relation"; };
+			void expose_children(TokenVisitor& vis) override;
 		};
 
 		class RelationStatement : public Token
@@ -150,6 +167,7 @@ namespace GraphLang
 			TokenParseResult Parse(Parser& p) override;
 			Token* clone() const override { return new RelationStatement(*this); };
 			std::string name() const override { return "RelationStatement"; };
+			void expose_children(TokenVisitor& vis) override;
 		};
 
 		class SingleNodeStatement : public Token
@@ -160,6 +178,7 @@ namespace GraphLang
 			TokenParseResult Parse(Parser& p) override;
 			Token* clone() const override { return new SingleNodeStatement(*this); };
 			std::string name() const override { return "SingleNodeStatement"; };
+			void expose_children(TokenVisitor& vis) override;
 		};
 
 		class NodeArrayDeclarationStatement : public Token
@@ -170,6 +189,7 @@ namespace GraphLang
 			TokenParseResult Parse(Parser& p) override;
 			Token* clone() const override { return new NodeArrayDeclarationStatement(*this); };
 			std::string name() const override { return "NodeArrayDeclarationStatement"; };
+			void expose_children(TokenVisitor& vis) override;
 		};
 	}; // /namespace Tokenizer
 }; // /namespace GraphLang

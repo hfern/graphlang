@@ -167,6 +167,12 @@ namespace Tokenizer
 		return make_tuple(true, "");
 	}
 
+	void Attribute::expose_children(TokenVisitor& vis)
+	{
+		vis(id);
+		vis(val);
+	}
+
 	TokenParseResult LiteralValue::Parse(Parser& p)
 	{
 		Checkpoint ch(p, this);
@@ -200,6 +206,11 @@ namespace Tokenizer
 		{
 			val = unique_ptr<Token>(other.val->clone());
 		}
+	}
+
+	void LiteralValue::expose_children(TokenVisitor& v)
+	{
+		v(*val.get());
 	}
 
 	TokenParseResult Node::Parse(Parser& p)
@@ -263,6 +274,15 @@ namespace Tokenizer
 		for (auto& p: other.attributes)
 		{
 			attributes.push_back(unique_ptr<Attribute>(static_cast<Attribute*>(p->clone())));
+		}
+	}
+
+	void Node::expose_children(TokenVisitor& vis)
+	{
+		vis(identifier);
+		for (auto& attr: attributes)
+		{
+			vis(*attr.get());
 		}
 	}
 
@@ -336,6 +356,14 @@ namespace Tokenizer
 		return{ true, "" };
 	}
 
+	void NodeArray::expose_children(TokenVisitor& vis)
+	{
+		for (auto& node : nodes)
+		{
+			vis(node);
+		}
+	}
+
 	TokenParseResult Relation::Parse(Parser& p)
 	{
 		// <-id- left relation
@@ -387,6 +415,11 @@ namespace Tokenizer
 
 		ch.commit();
 		return TokenParseResult{true, ""};
+	}
+
+	void Relation::expose_children(TokenVisitor& vis)
+	{
+		vis(relationName);
 	}
 
 	std::string Relation::Direction::pretty() const
@@ -460,6 +493,12 @@ namespace Tokenizer
 		return {true, ""};
 	}
 
+	void RelationStatement::expose_children(TokenVisitor& vis)
+	{
+		for (auto& node : nodeSets) vis(node);
+		for (auto& relation : relations) vis(relation);
+	}
+
 	TokenParseResult SingleNodeStatement::Parse(Parser& p)
 	{
 		Checkpoint ch(p, this);
@@ -478,6 +517,11 @@ namespace Tokenizer
 		return{ true, "" };
 	}
 
+	void SingleNodeStatement::expose_children(TokenVisitor& vis)
+	{
+		vis(node);
+	}
+
 	TokenParseResult NodeArrayDeclarationStatement::Parse(Parser& p)
 	{
 		Checkpoint ch(p, this);
@@ -494,6 +538,11 @@ namespace Tokenizer
 
 		ch.commit();
 		return{ true, "" };
+	}
+
+	void NodeArrayDeclarationStatement::expose_children(TokenVisitor& vis)
+	{
+		vis(nodearr);
 	}
 }; // /namespace Tokenizer
 }; // /namespace GraphLang
