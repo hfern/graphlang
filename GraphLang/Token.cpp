@@ -331,6 +331,7 @@ namespace Tokenizer
 			return{false, "Couldn't match closing ] to NodeArray"};
 		}
 
+		ch.commit();
 
 		return{ true, "" };
 	}
@@ -416,6 +417,8 @@ namespace Tokenizer
 
 		nodeSets.push_back(std::move(firstNode));
 
+		bool atLeast1 = false;
+
 		while(true)
 		{
 			Relation rel;
@@ -439,6 +442,13 @@ namespace Tokenizer
 
 			relations.emplace_back(std::move(rel));
 			nodeSets.emplace_back(std::move(arr));
+
+			atLeast1 = true;
+		}
+
+		if (!atLeast1)
+		{
+			return{false, "RelationStatement: Expected at least a single relation between nodes."};
 		}
 
 		if (!p.matchLiteral(";"))
@@ -448,6 +458,42 @@ namespace Tokenizer
 
 		ch.commit();
 		return {true, ""};
+	}
+
+	TokenParseResult SingleNodeStatement::Parse(Parser& p)
+	{
+		Checkpoint ch(p, this);
+
+		if (!get<0>(p.require(node)))
+		{
+			return{ false, "SingleNodeStatement requires a single node!" };
+		}
+
+		if (!p.matchLiteral(";"))
+		{
+			return{ false, "SingleNodeStatement expects a node to be followed by ';'" };
+		}
+
+		ch.commit();
+		return{ true, "" };
+	}
+
+	TokenParseResult NodeArrayDeclarationStatement::Parse(Parser& p)
+	{
+		Checkpoint ch(p, this);
+
+		if (!get<0>(p.require(nodearr)))
+		{
+			return{ false, "NodeArrayDeclarationStatement requires a node array!" };
+		}
+
+		if (!p.matchLiteral(";"))
+		{
+			return{ false, "NodeArrayDeclarationStatement expects a nodearray to be followed by ';'" };
+		}
+
+		ch.commit();
+		return{ true, "" };
 	}
 }; // /namespace Tokenizer
 }; // /namespace GraphLang

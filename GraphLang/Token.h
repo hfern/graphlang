@@ -151,5 +151,25 @@ namespace GraphLang
 			Token* clone() const override { return new RelationStatement(*this); };
 			std::string name() const override { return "RelationStatement"; };
 		};
+
+		class SingleNodeStatement : public Token
+		{
+		public:
+			Node node;
+
+			TokenParseResult Parse(Parser& p) override;
+			Token* clone() const override { return new SingleNodeStatement(*this); };
+			std::string name() const override { return "SingleNodeStatement"; };
+		};
+
+		class NodeArrayDeclarationStatement : public Token
+		{
+		public:
+			NodeArray nodearr;
+
+			TokenParseResult Parse(Parser& p) override;
+			Token* clone() const override { return new NodeArrayDeclarationStatement(*this); };
+			std::string name() const override { return "NodeArrayDeclarationStatement"; };
+		};
 	}; // /namespace Tokenizer
 }; // /namespace GraphLang

@@ -11,17 +11,18 @@ using namespace std;
 
 void doForString(string input)
 {
-	using RelationStmt = GraphLang::Tokenizer::RelationStatement;
-	using Number = GraphLang::Tokenizer::Number;
-	using String = GraphLang::Tokenizer::String;
-	using Attribute = GraphLang::Tokenizer::Attribute;
-	using NodeArray = GraphLang::Tokenizer::NodeArray;
-
 	GraphLang::Tokenizer::String s1, s2;
 	istringstream iss(input);
 	GraphLang::Parser parser(iss);
 
-	auto got = parser.oneOf<RelationStmt, NodeArray, Number, String, Attribute>();
+	auto got = parser.oneOf <
+		GraphLang::Tokenizer::RelationStatement,
+		GraphLang::Tokenizer::SingleNodeStatement,
+		GraphLang::Tokenizer::NodeArrayDeclarationStatement,
+		GraphLang::Tokenizer::Number,
+		GraphLang::Tokenizer::String,
+		GraphLang::Tokenizer::Attribute
+	>();
 	auto res = get<1>(got);
 
 	if (!get<0>(res))

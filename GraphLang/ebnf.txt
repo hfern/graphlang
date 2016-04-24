@@ -1,21 +1,19 @@
 
-
-letter			=	"A" | "B" | "C" | "D" | "E" | 
-					"F" | "G" | "H" | "I" | "J" | 
-					"K" | "L" | "M" | "N" | "O" | 
-					"P" | "Q" | "R" | "S" | "T" | 
-					"U" | "V" | "W" | "X" | "Y" | 
-					"Z" | 
-					"a" | "b" | "c" | "d" | "e" | 
-					"f" | "g" | "h" | "i" | "j" | 
-					"k" | "l" | "m" | "n" | "o" | 
-					"p" | "q" | "r" | "s" | "t" | 
-					"u" | "v" | "w" | "x" | "y" | 
-					"z";
-
 nonzerodigit	= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 digit			= "0" | nonzerodigit;
-wholenumber		= nonzerodigit, {digit};
-number			= wholenumber, [digit, {digit}];
+wholenumber		= nonzerodigit {digit};
+digitseq		= digit {digit}
+
+number			= wholenumber [ . digitseq]
+
+char			= normalChar | escapedChar
+escapedChar	    = "\" normalChar | "\" "\""
+string			= "\"" {char} "\""
+
+literalvalue	= number | string
 
 identifier		= letter {letter | digit};
+
+node			= "(" identifier [nodefields] } 
+nodefields		= nodefield {nodefield}
+nodefield		= identifier ":" literalvalue
