@@ -20,8 +20,27 @@ namespace GraphLang
 		class TokenVisitor
 		{
 		public:
-			virtual void operator()(Token&) = 0;
+			enum class Status
+			{
+				Continue,	// continue on searching the ast tree
+				StopBranch, // kill searching on descendants of the current node
+				Stop		// stop searching the ast completely
+			};
+
+			struct RootTag {}; // signify that this is the begining of a new ast crawl
+			const static RootTag Root;
+		public:
+			virtual Status visit(Token& token) = 0;
+
+			virtual void operator()(Token&);
+			void operator()(Token& tok, RootTag);
 			virtual ~TokenVisitor() {};
+
+		protected:
+			struct Impl
+			{
+				struct FullStopException {};
+			};
 		};
 
 		// Token represents a token in a parse tree. 
@@ -92,6 +111,9 @@ namespace GraphLang
 			virtual Token* clone() const override { return new LiteralValue(*this); };
 			std::string name() const override { return "LiteralValue"; };
 			void expose_children(TokenVisitor& vis) override;
+
+			// convert the literal type to a graph-engine aware NodeValue
+			NodeValue	toNodeValue() const;
 		};
 
 		class Attribute : public Token

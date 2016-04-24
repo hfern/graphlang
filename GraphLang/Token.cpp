@@ -10,6 +10,38 @@ namespace GraphLang
 {
 namespace Tokenizer
 {
+	const TokenVisitor::RootTag TokenVisitor::Root = {};
+
+	void TokenVisitor::operator()(Token& tok)
+	{
+		auto directive = visit(tok);
+
+		switch(directive)
+		{
+		case Status::Stop:
+			throw Impl::FullStopException{};
+			return;
+		case Status::StopBranch:
+			return;
+		case Status::Continue:
+			tok.expose_children(*this);
+		}
+	}
+
+	void TokenVisitor::operator()(Token& tok, RootTag)
+	{
+		try
+		{
+			operator()(tok);
+		}
+		catch(Impl::FullStopException)
+		{
+			// that's fine :)
+		}
+
+		return; // end of input
+	}
+
 	Token::Token()
 	{
 	}
@@ -211,6 +243,21 @@ namespace Tokenizer
 	void LiteralValue::expose_children(TokenVisitor& v)
 	{
 		v(*val.get());
+	}
+
+	NodeValue LiteralValue::toNodeValue() const
+	{
+		if (String* strptr = dynamic_cast<String*>(val.get()))
+		{
+			return NodeValue(make_unique<std::string>(strptr->val));
+		}
+
+		if (Number* numptr = dynamic_cast<Number*>(val.get()))
+		{
+			return NodeValue(numptr->num);
+		}
+
+		return NodeValue{};
 	}
 
 	TokenParseResult Node::Parse(Parser& p)

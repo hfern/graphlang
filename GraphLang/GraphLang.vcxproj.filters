@@ -47,6 +47,9 @@
     <ClInclude Include="InputStream.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ExecutableAction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -68,6 +71,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="InputStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExecutableAction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

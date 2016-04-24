@@ -5,8 +5,11 @@
 #include <sstream>
 #include "../GraphLang/Token.h"
 #include "../GraphLang/Parser.h"
+#include "../GraphLang/ExecutableAction.h"
 
 using namespace std;
+using namespace GraphLang;
+using GraphLang::Action::ActionYielder;
 
 
 void doForString(string input)
@@ -35,7 +38,21 @@ void doForString(string input)
 
 	if (parser.eof() || parser.matchLiteral(";"))
 	{
-		cout << "Got a " << tok->name();
+		cout << "Got a " << tok->name() << endl;
+		cout << "Yielding Exec Actions..." << endl;
+		Action::AttachAttributeYielder yielder;
+
+		yielder(*tok.get(), Tokenizer::TokenVisitor::Root);
+
+		cout << "Will attach attributes [" << yielder.getActions().size() << "]" << endl;
+
+		for (auto& action: yielder.getActions())
+		{
+			auto aaptr = dynamic_cast<Action::AttachAttribute*>(action.get());
+			cout << aaptr->node_name()
+				<< "\t: `" << aaptr->property_name()
+				<< "`\t=\t" << aaptr->value().getType() << endl;
+		}
 	}
 	else
 	{

@@ -21,7 +21,7 @@ private:
 	NodeID node_counter;
 
 	// master list of node id to node
-	std::map<NodeID, std::unique_ptr<Node>> nodeList;
+	std::map<NodeID, std::shared_ptr<Node>> nodeList;
 
 
 

@@ -144,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BidirectionalIndexed.hpp" />
+    <ClInclude Include="ExecutableAction.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="InputStream.h" />
     <ClInclude Include="Node.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Token.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ExecutableAction.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="InputStream.cpp" />
     <ClCompile Include="Node.cpp" />

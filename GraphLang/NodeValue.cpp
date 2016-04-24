@@ -4,6 +4,21 @@
 
 using namespace std;
 
+::std::ostream& operator<<(::std::ostream& os, const ValueType& t)
+{
+	os << "ValueType::";
+
+	switch(t)
+	{
+	case ValueType::None:	os << "None"; break;
+	case ValueType::String: os << "String"; break;
+	case ValueType::Number: os << "Number"; break;
+	default:				os << "???"; break;
+	}
+
+	return os;
+}
+
 NodeValue::NodeValue()
 {
 	ty = ValueType::None;
@@ -32,6 +47,9 @@ NodeValue::NodeValue(const NodeValue& other)
 		break;
 	case ValueType::String:
 		u.str = new std::string(*other.u.str);
+		break;
+	case ValueType::None:
+		// nothing to do
 		break;
 	}
 }

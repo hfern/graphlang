@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <memory>
+#include <iostream>
 
 enum class ValueType
 {
@@ -8,6 +9,8 @@ enum class ValueType
 	String,
 	Number,
 };
+
+::std::ostream& operator<<(::std::ostream& os, const ValueType& t);
 
 class NodeValue
 {
@@ -30,5 +33,7 @@ public:
 
 	void set_to(std::unique_ptr<std::string> strptr);
 	void set_to(double d);
+
+	ValueType getType() const { return ty; };
 };
 
