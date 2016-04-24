@@ -317,6 +317,7 @@ namespace Tokenizer
 
 	Node::Node(const Node& other)
 	{
+		identifier = other.identifier;
 		attributes.reserve(other.attributes.size());
 
 		for (auto& p: other.attributes)
