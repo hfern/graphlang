@@ -12,8 +12,13 @@ using namespace GraphLang;
 using GraphLang::Action::ActionYielder;
 
 
-void doForString(string input)
+bool doForString(string input)
 {
+	if (input == ":q")
+	{
+		return false;
+	}
+
 	GraphLang::Tokenizer::String s1, s2;
 	istringstream iss(input);
 	GraphLang::Parser parser(iss);
@@ -31,7 +36,7 @@ void doForString(string input)
 	if (!get<0>(res))
 	{
 		cout << "Didn't successfully parse any: " << get<1>(res) << endl;
-		return;
+		return true;
 	}
 
 	auto tok = std::move(get<0>(got));
@@ -60,16 +65,20 @@ void doForString(string input)
 			<< ", but characters were left unread!!!";
 	}
 
+	return true;
 }
 
 
 int main()
 {
-	while (true)
+	bool quit = false;
+	while (!quit)
 	{
 		string line;
 		cout << "\n\n$$$ ";
 		getline(cin, line);
-		doForString(line);
+		quit = !doForString(line);
 	}
+
+	cout << "Hasta la vista, baby. :)" << endl;
 }
