@@ -4,6 +4,7 @@
 #include "Graph.h"
 #include "Token.h"
 #include <vector>
+#include <tuple>
 #include <memory>
 
 // TODO(hunter): This can get a lot more optimal.
@@ -72,6 +73,38 @@ namespace GraphLang
 		{
 		public: Status visit(Tokenizer::Token& token) override;
 		};
+
+
+		class AttachRelation : public ExecutableAction
+		{
+			std::string from;
+			std::string relation;
+			std::string to;
+
+		public:
+			AttachRelation(std::string fromNode, std::string relName, std::string toNode);
+			void execute(ExecArgs args) override;
+
+			const std::string& fromNode() const;
+			const std::string& relName() const;
+			const std::string& toNode() const;
+		};
+
+		// catlogues relations to be built in a query.
+		class AttachRelationYielder: public ActionYielder
+		{
+		public: Status visit(Tokenizer::Token& token) override;
+		};
+
+		namespace Impl
+		{
+			template <typename T>
+			std::tuple<bool, T*> canDowncastTo(Tokenizer::Token& n)
+			{
+				T* tempPtr = dynamic_cast<T*>(&n);
+				return {tempPtr == nullptr, tempPtr};
+			}
+		} // /Impl
 
 	} // /Action
 } // /GraphLang

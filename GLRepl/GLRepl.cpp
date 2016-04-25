@@ -45,19 +45,30 @@ bool doForString(string input)
 	{
 		cout << "Got a " << tok->name() << endl;
 		cout << "Yielding Exec Actions..." << endl;
-		Action::AttachAttributeYielder yielder;
 
-		yielder(*tok.get(), Tokenizer::TokenVisitor::Root);
-
-		cout << "Will attach attributes [" << yielder.getActions().size() << "]" << endl;
-
-		for (auto& action: yielder.getActions())
+		Action::AttachAttributeYielder attrYielder;
+		attrYielder(*tok.get(), Tokenizer::TokenVisitor::Root);
+		cout << "Will attach attributes [" << attrYielder.getActions().size() << "]" << endl;
+		for (auto& action: attrYielder.getActions())
 		{
 			auto aaptr = dynamic_cast<Action::AttachAttribute*>(action.get());
 			cout << aaptr->node_name()
 				<< "\t: `" << aaptr->property_name()
 				<< "`\t=\t" << aaptr->value().getType() << endl;
 		}
+
+		cout << "\n\n\n";
+
+		Action::AttachRelationYielder relYielder;
+		relYielder(*tok.get(), Tokenizer::TokenVisitor::Root);
+		cout << "Building the following relations: [" << relYielder.getActions().size() << "]\n";
+		for (auto& action : relYielder.getActions())
+		{
+			auto arptr = dynamic_cast<Action::AttachRelation*>(action.get());
+			cout << arptr->fromNode() << " \t-" << arptr->relName()
+				<< "-> \t" << arptr->toNode() << endl;
+		}
+
 	}
 	else
 	{
