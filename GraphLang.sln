@@ -3,6 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLRepl", "GLRepl\GLRepl.vcxproj", "{5AB43AAD-0D63-4287-B539-E3930BEADEC3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{81CE541C-E3A7-4FE5-9AFA-DB23C27FC4C1} = {81CE541C-E3A7-4FE5-9AFA-DB23C27FC4C1}
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphLang", "GraphLang\GraphLang.vcxproj", "{81CE541C-E3A7-4FE5-9AFA-DB23C27FC4C1}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParseTests", "ParseTests\ParseTests.vcxproj", "{FA6F3988-3D00-4A8B-B29F-92B6FBEF0522}"
@@ -10,11 +15,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParseTests", "ParseTests\Pa
 		{81CE541C-E3A7-4FE5-9AFA-DB23C27FC4C1} = {81CE541C-E3A7-4FE5-9AFA-DB23C27FC4C1}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLRepl", "GLRepl\GLRepl.vcxproj", "{5AB43AAD-0D63-4287-B539-E3930BEADEC3}"
-	ProjectSection(ProjectDependencies) = postProject
-		{81CE541C-E3A7-4FE5-9AFA-DB23C27FC4C1} = {81CE541C-E3A7-4FE5-9AFA-DB23C27FC4C1}
-	EndProjectSection
-EndProject
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
