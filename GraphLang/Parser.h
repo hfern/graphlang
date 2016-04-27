@@ -18,6 +18,7 @@ class Parser
 	Tokenizer::InputStream& ins;
 public:
 	using UTokenPtr = std::unique_ptr<Tokenizer::Token>;
+	using OneOfRType = std::tuple<UTokenPtr, ::GraphLang::Tokenizer::TokenParseResult>;
 
 	class Checkpoint;
 	friend class Parser::Checkpoint;
@@ -45,8 +46,7 @@ public:
 	template <typename T1, typename... Ts>
 	struct Impl<T1, Ts...>
 	{
-		static std::tuple<UTokenPtr, Tokenizer::TokenParseResult> 
-			oneOf(Parser& p)
+		static OneOfRType oneOf(Parser& p)
 		{
 			T1 token;
 			auto r = p.require(token);
@@ -67,8 +67,7 @@ public:
 	template <>
 	struct Impl<>
 	{
-		static std::tuple<UTokenPtr, ::GraphLang::Tokenizer::TokenParseResult> 
-			oneOf(Parser& p)
+		static OneOfRType oneOf(Parser& p)
 		{
 			return std::make_tuple(
 				std::unique_ptr<Tokenizer::Token>(nullptr),
@@ -78,7 +77,7 @@ public:
 	};
 
 	template <typename... Args>
-	std::tuple<UTokenPtr, Tokenizer::TokenParseResult> oneOf()
+	OneOfRType oneOf()
 	{
 		return Impl<Args...>::oneOf(*this);
 	}

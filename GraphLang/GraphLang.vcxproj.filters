@@ -50,6 +50,9 @@
     <ClInclude Include="ExecutableAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="parsepriority.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

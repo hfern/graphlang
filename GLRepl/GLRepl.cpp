@@ -11,6 +11,10 @@ using namespace std;
 using namespace GraphLang;
 using GraphLang::Action::ActionYielder;
 
+// Get the repl parse function that is ordered
+// to GraphLang's default parse order.
+GraphLang::Parser::OneOfRType orderedParse(GraphLang::Parser& p);
+
 
 bool doForString(string input)
 {
@@ -23,14 +27,7 @@ bool doForString(string input)
 	istringstream iss(input);
 	GraphLang::Parser parser(iss);
 
-	auto got = parser.oneOf <
-		GraphLang::Tokenizer::RelationStatement,
-		GraphLang::Tokenizer::SingleNodeStatement,
-		GraphLang::Tokenizer::NodeArrayDeclarationStatement,
-		GraphLang::Tokenizer::Number,
-		GraphLang::Tokenizer::String,
-		GraphLang::Tokenizer::Attribute
-	>();
+	auto got = orderedParse(parser);
 	auto res = get<1>(got);
 
 	if (!get<0>(res))
@@ -92,4 +89,15 @@ int main()
 	}
 
 	cout << "Hasta la vista, baby. :)" << endl;
+}
+
+// The godless function that abuses macros.
+GraphLang::Parser::OneOfRType orderedParse(GraphLang::Parser& p)
+{
+#define GRL_TOKEN_ENTRY(PRI,TOKT,TOKNAME)		::GraphLang::Tokenizer::##TOKNAME,
+#define GRL_TOKEN_ENTRY_LAST(PRI,TOKT,TOKNAME)  ::GraphLang::Tokenizer::##TOKNAME
+
+	return p.oneOf<
+#include "../GraphLang/parsepriority.h"	
+	>();
 }
