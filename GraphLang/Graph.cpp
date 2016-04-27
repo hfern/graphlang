@@ -13,6 +13,6 @@ Graph::~Graph()
 
 NodeID Graph::reserve_nodeid()
 {
-	node_counter++;
-	return node_counter;
+    node_counter++;
+    return node_counter;
 }

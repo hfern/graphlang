@@ -16,11 +16,11 @@
 
 namespace GraphLang
 {
-	namespace Tokenizer
-	{
-		using TokenInput = std::istream;
-		using TokenParseResult = std::tuple<bool, std::string>;
-	};
+    namespace Tokenizer
+    {
+        using TokenInput = std::istream;
+        using TokenParseResult = std::tuple<bool, std::string>;
+    };
 };
 
 

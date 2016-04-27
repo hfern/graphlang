@@ -23,21 +23,21 @@ using StringID = std::size_t;
 
 struct Node
 {
-	NodeID id;
-	std::vector<Node> outlinks;
+    NodeID id;
+    std::vector<Node> outlinks;
 
-	NodeValue value;
-	std::map<PropertyID, NodeValue> attributes;
+    NodeValue value;
+    std::map<PropertyID, NodeValue> attributes;
 
-	std::map<RelationID, std::set<NodeID>> outgoing;
-	std::map<RelationID, std::set<NodeID>> incoming;
+    std::map<RelationID, std::set<NodeID>> outgoing;
+    std::map<RelationID, std::set<NodeID>> incoming;
 
 public:
-	Node();
-	~Node();
+    Node();
+    ~Node();
 
-	void add_attribute(PropertyID pid, NodeValue v);
-	void add_linkto(RelationID typ, NodeID toNode);
-	void add_linkfrom(RelationID typ, NodeID fromNode);
+    void add_attribute(PropertyID pid, NodeValue v);
+    void add_linkto(RelationID typ, NodeID toNode);
+    void add_linkfrom(RelationID typ, NodeID fromNode);
 };
 

@@ -1,19 +1,19 @@
 
-nonzerodigit	= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
-digit			= "0" | nonzerodigit;
-wholenumber		= nonzerodigit {digit};
-digitseq		= digit {digit}
+nonzerodigit    = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+digit            = "0" | nonzerodigit;
+wholenumber        = nonzerodigit {digit};
+digitseq        = digit {digit}
 
-number			= wholenumber [ . digitseq]
+number            = wholenumber [ . digitseq]
 
-char			= normalChar | escapedChar
-escapedChar	    = "\" normalChar | "\" "\""
-string			= "\"" {char} "\""
+char            = normalChar | escapedChar
+escapedChar        = "\" normalChar | "\" "\""
+string            = "\"" {char} "\""
 
-literalvalue	= number | string
+literalvalue    = number | string
 
-identifier		= letter {letter | digit};
+identifier        = letter {letter | digit};
 
-node			= "(" identifier [nodefields] } 
-nodefields		= nodefield {nodefield}
-nodefield		= identifier ":" literalvalue
+node            = "(" identifier [nodefields] } 
+nodefields        = nodefield {nodefield}
+nodefield        = identifier ":" literalvalue

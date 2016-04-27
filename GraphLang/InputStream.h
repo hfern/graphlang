@@ -6,6 +6,6 @@ namespace GraphLang
 {
 namespace Tokenizer
 {
-	using InputStream = std::istream;
+    using InputStream = std::istream;
 }; // /Tokenizer
 }; // /GraphLang

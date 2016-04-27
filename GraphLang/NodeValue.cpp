@@ -6,93 +6,93 @@ using namespace std;
 
 ::std::ostream& operator<<(::std::ostream& os, const ValueType& t)
 {
-	os << "ValueType::";
+    os << "ValueType::";
 
-	switch(t)
-	{
-	case ValueType::None:	os << "None"; break;
-	case ValueType::String: os << "String"; break;
-	case ValueType::Number: os << "Number"; break;
-	default:				os << "???"; break;
-	}
+    switch(t)
+    {
+    case ValueType::None:    os << "None"; break;
+    case ValueType::String: os << "String"; break;
+    case ValueType::Number: os << "Number"; break;
+    default:                os << "???"; break;
+    }
 
-	return os;
+    return os;
 }
 
 NodeValue::NodeValue()
 {
-	ty = ValueType::None;
-	u.num = 0;
+    ty = ValueType::None;
+    u.num = 0;
 }
 
 NodeValue::NodeValue(std::unique_ptr<std::string> str)
 {
-	ty = ValueType::String;
-	u.str = str.release();
+    ty = ValueType::String;
+    u.str = str.release();
 }
 
 NodeValue::NodeValue(double val)
 {
-	ty = ValueType::Number;
-	u.num = val;
+    ty = ValueType::Number;
+    u.num = val;
 }
 
 NodeValue::NodeValue(const NodeValue& other)
 {
-	ty = other.ty;
-	switch(other.ty)
-	{
-	case ValueType::Number:
-		u.num = other.u.num;
-		break;
-	case ValueType::String:
-		u.str = new std::string(*other.u.str);
-		break;
-	case ValueType::None:
-		// nothing to do
-		break;
-	}
+    ty = other.ty;
+    switch(other.ty)
+    {
+    case ValueType::Number:
+        u.num = other.u.num;
+        break;
+    case ValueType::String:
+        u.str = new std::string(*other.u.str);
+        break;
+    case ValueType::None:
+        // nothing to do
+        break;
+    }
 }
 
 NodeValue::~NodeValue()
 {
-	switch (ty)
-	{
-	case ValueType::String:
-		delete u.str;
-		break;
-	}
+    switch (ty)
+    {
+    case ValueType::String:
+        delete u.str;
+        break;
+    }
 }
 
 const std::string& NodeValue::get_string() const
 {
-	assert(ty == ValueType::String);
-	return *u.str;
+    assert(ty == ValueType::String);
+    return *u.str;
 }
 
 double NodeValue::get_num() const
 {
-	assert(ty == ValueType::Number);
-	return u.num;
+    assert(ty == ValueType::Number);
+    return u.num;
 }
 
 void NodeValue::set_to(std::unique_ptr<std::string> str)
 {
-	if (ty == ValueType::String)
-	{
-		delete u.str;
-	}
+    if (ty == ValueType::String)
+    {
+        delete u.str;
+    }
 
-	ty = ValueType::String;
-	u.str = str.release();
+    ty = ValueType::String;
+    u.str = str.release();
 }
 
 void NodeValue::set_to(double d)
 {
-	if (ty == ValueType::String)
-	{
-		delete u.str;
-	}
-	ty = ValueType::Number;
-	u.num = d;
+    if (ty == ValueType::String)
+    {
+        delete u.str;
+    }
+    ty = ValueType::Number;
+    u.num = d;
 }
