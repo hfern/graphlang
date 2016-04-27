@@ -31,3 +31,20 @@ Group declaration and relation statements are also supported:
 
     [(hunter), (cruise), (colbert)] <-friends-> [(kevin), (oprah name:"Oprah Winfrey")];
 
+Unidirectional relations are also supported by just using `-rel->` and `<-rel-` instead of `<-rel->`.
+
+
+## Querying Data
+This is all TODO(hunter): needs to be implemented.
+
+Access a field of a identified node
+
+    (hunter).name;
+
+Equivalent of a SELECT Statement: Find nodes where the name begins with "Hunter" and whose favNumber is 42.
+
+    ?[name~="Hunter" AND favNumber=42];
+
+Make the previous selection friends with Tom Cruise
+
+    ?[name~="Hunter" AND favNumber=42] <-friends-> (cruise);
